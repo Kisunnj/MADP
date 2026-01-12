@@ -1,0 +1,47 @@
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Каталог товаров";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    
+    <div class="row mt-4">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-text">
+                            <strong>Цена: </strong>@product.Price.ToString("C")
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">@product.Category</small>
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-primary">
+                                Подробнее
+                            </a>
+                            <button class="btn btn-sm btn-success" onclick="addToCart(@product.Id)">
+                                <i class="fas fa-cart-plus"></i> В корзину
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function addToCart(productId) {
+            alert('Товар ' + productId + ' добавлен в корзину!');
+            // Здесь можно добавить AJAX запрос для добавления в корзину
+        }
+    </script>
+}
+

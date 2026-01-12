@@ -1,0 +1,112 @@
+@page
+@model WEB_253551_Levchuk.Areas.Admin.Pages.IndexModel
+@{
+    ViewData["Title"] = "Панель администрирования";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2><i class="fas fa-cogs"></i> @ViewData["Title"]</h2>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">
+                    <i class="fas fa-users"></i> Пользователи
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Управление пользователями</h5>
+                    <p class="card-text">Просмотр и редактирование пользователей системы.</p>
+                    <button class="btn btn-light" disabled>
+                        <i class="fas fa-user-edit"></i> Управление
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">
+                    <i class="fas fa-box"></i> Товары
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Управление товарами</h5>
+                    <p class="card-text">Добавление, редактирование и удаление товаров.</p>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-light">
+                        <i class="fas fa-list"></i> Каталог товаров
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">
+                    <i class="fas fa-shopping-cart"></i> Заказы
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Управление заказами</h5>
+                    <p class="card-text">Просмотр и обработка заказов клиентов.</p>
+                    <button class="btn btn-light" disabled>
+                        <i class="fas fa-clipboard-list"></i> Заказы
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <i class="fas fa-chart-line"></i> Статистика
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <div class="border rounded p-3">
+                                <h4 class="text-primary">@Model.TotalUsers</h4>
+                                <p class="text-muted">Пользователей</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="border rounded p-3">
+                                <h4 class="text-success">@Model.TotalProducts</h4>
+                                <p class="text-muted">Товаров</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="border rounded p-3">
+                                <h4 class="text-info">@Model.TotalOrders</h4>
+                                <p class="text-muted">Заказов</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="border rounded p-3">
+                                <h4 class="text-warning">@Model.TotalRevenue.ToString("C")</h4>
+                                <p class="text-muted">Доход</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-info-circle"></i> Информация о системе
+                </div>
+                <div class="card-body">
+                    <p><strong>Версия приложения:</strong> 1.0.0</p>
+                    <p><strong>Фреймворк:</strong> ASP.NET Core 8.0</p>
+                    <p><strong>База данных:</strong> SQLite</p>
+                    <p><strong>Текущий пользователь:</strong> @User.Identity?.Name</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,101 @@
+@model IEnumerable<CartItem>
+
+@{
+    ViewData["Title"] = "Корзина покупок";
+}
+
+<div class="container">
+    <h2><i class="fas fa-shopping-cart"></i> @ViewData["Title"]</h2>
+    
+    @if (Model.Any())
+    {
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Товар</th>
+                                    <th>Цена</th>
+                                    <th>Количество</th>
+                                    <th>Итого</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.Price.ToString("C")</td>
+                                        <td>
+                                            <form asp-action="UpdateQuantity" method="post" class="d-inline">
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <div class="input-group" style="width: 150px;">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); this.form.submit();">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="number" name="quantity" value="@item.Quantity" min="0" class="form-control text-center" />
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); this.form.submit();">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                        <td><strong>@item.Subtotal.ToString("C")</strong></td>
+                                        <td>
+                                            <form asp-action="RemoveFromCart" method="post" class="d-inline">
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Итого</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Товаров в корзине: <strong>@ViewBag.ItemCount</strong></p>
+                        <hr />
+                        <h4>Сумма: <span class="text-success">@ViewBag.Total.ToString("C")</span></h4>
+                        <hr />
+                        <button class="btn btn-success btn-block btn-lg mb-2">
+                            <i class="fas fa-credit-card"></i> Оформить заказ
+                        </button>
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary btn-block">
+                            <i class="fas fa-shopping-bag"></i> Продолжить покупки
+                        </a>
+                        <hr />
+                        <form asp-action="ClearCart" method="post">
+                            <button type="submit" class="btn btn-outline-danger btn-block" onclick="return confirm('Очистить корзину?');">
+                                <i class="fas fa-trash-alt"></i> Очистить корзину
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info mt-4">
+            <h4><i class="fas fa-info-circle"></i> Корзина пуста</h4>
+            <p>Добавьте товары из каталога в корзину.</p>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
+                <i class="fas fa-shopping-bag"></i> Перейти в каталог
+            </a>
+        </div>
+    }
+</div>
+

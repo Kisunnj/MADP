@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Cart>
+
+
+<div class="navbar-nav">
+    @foreach (var item in Model)
+    {
+        <a asp-controller="@item.Controller" asp-action="@item.Action" class="@item.CostClassStyle">
+            @item.Cost$ <i class="@item.AmountClassStyle" style="@item.AmountStyle"></i> (@item.Amount)
+        </a>
+    }
+</div>
