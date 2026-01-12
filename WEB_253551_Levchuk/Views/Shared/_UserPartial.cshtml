@@ -5,18 +5,20 @@
 @{
     var currentUser = await UserManager.GetUserAsync(User);
     var userEmail = currentUser?.Email ?? User.Identity?.Name ?? "user@mail.com";
+    var userId = currentUser?.Id;
+    var avatarUrl = userId != null ? Url.Action("Avatar", "Account", new { userId = userId }) : "~/images/avatar.png";
 }
 
 <div class="dropdown ml-4 nav-color">
     <div class=" dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="~/images/avatar.png" width="30"
-             alt="User" style="margin-left: 30px;" />
+        <img src="@avatarUrl" width="30"
+             alt="User" style="margin-left: 30px; border-radius: 50%; object-fit: cover;" />
     </div>
     <div class="dropdown-menu"
          aria-labelledby="dropdownMenuButton">
         <div class="dropdown-item-text" style="text-align:center;">
-            <img src="~/images/avatar.png" width="50"
-                 alt="User" />
+            <img src="@avatarUrl" width="50"
+                 alt="User" style="border-radius: 50%; object-fit: cover;" />
             <span>@userEmail</span>
         </div>
         <div class="dropdown-divider"></div>

@@ -98,6 +98,9 @@ namespace WEB_253551_Levchuk.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Avatar")]
+            public IFormFile Avatar { get; set; }
         }
 
 
@@ -117,6 +120,16 @@ namespace WEB_253551_Levchuk.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                
+                // Обработка аватарки
+                if (Input.Avatar != null)
+                {
+                    user.ContentType = Input.Avatar.ContentType;
+                    using var memoryStream = new MemoryStream();
+                    await Input.Avatar.CopyToAsync(memoryStream);
+                    user.Image = memoryStream.ToArray();
+                }
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

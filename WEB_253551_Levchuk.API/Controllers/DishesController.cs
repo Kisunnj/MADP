@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WEB_253551_Levchuk.API.Models;
 using WEB_253551_Levchuk.API.Services;
@@ -45,6 +46,7 @@ namespace WEB_253551_Levchuk.API.Controllers
         }
 
         // POST: api/dishes
+        [Authorize(Policy = "PowerUser")]
         [HttpPost]
         public async Task<IActionResult> CreateDish([FromForm] Dish dish, [FromForm] IFormFile? formFile)
         {
@@ -59,6 +61,7 @@ namespace WEB_253551_Levchuk.API.Controllers
         }
 
         // PUT: api/dishes/5
+        [Authorize(Policy = "PowerUser")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDish(int id, [FromForm] Dish dish, [FromForm] IFormFile? formFile)
         {
@@ -73,6 +76,7 @@ namespace WEB_253551_Levchuk.API.Controllers
         }
 
         // DELETE: api/dishes/5
+        [Authorize(Policy = "PowerUser")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDish(int id)
         {
