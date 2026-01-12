@@ -1,0 +1,55 @@
+@page
+@model WEB_253551_Levchuk.Areas.Admin.Pages.DishesModel
+@{
+    ViewData["Title"] = "Управление блюдами";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Создать новое блюдо</a>
+</p>
+
+@if (Model.Dishes != null && Model.Dishes.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Калории</th>
+                <th>Категория</th>
+                <th>Изображение</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dish in Model.Dishes)
+            {
+                <tr>
+                    <td>@dish.Id</td>
+                    <td>@dish.Name</td>
+                    <td>@dish.Description</td>
+                    <td>@dish.Calories</td>
+                    <td>@dish.Category?.Name</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(dish.Image))
+                        {
+                            <img src="@dish.Image" alt="@dish.Name" style="max-width: 100px; max-height: 100px;" />
+                        }
+                    </td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@dish.Id" class="btn btn-sm btn-warning">Изменить</a>
+                        <a asp-page="Delete" asp-route-id="@dish.Id" class="btn btn-sm btn-danger">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Блюда не найдены.</p>
+}
+

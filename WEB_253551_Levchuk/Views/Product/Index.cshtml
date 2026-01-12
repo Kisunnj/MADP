@@ -1,47 +1,95 @@
-@model IEnumerable<Product>
-
+@model WEB_253551_Levchuk.Models.ListModel<WEB_253551_Levchuk.Models.Dish>
 @{
-    ViewData["Title"] = "Каталог товаров";
+    ViewData["Title"] = "Блюда дня";
+    var categories = ViewData["categories"] as List<WEB_253551_Levchuk.Models.Category> ?? new List<WEB_253551_Levchuk.Models.Category>();
+    var currentCategory = ViewData["currentCategory"] as string;
 }
 
-<div class="container">
-    <h2>@ViewData["Title"]</h2>
-    
-    <div class="row mt-4">
-        @foreach (var product in Model)
+<h1>@ViewData["Title"]</h1>
+
+<!-- Выбор категории -->
+<div class="col-2 border-2">
+    <ul class="nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" 
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false">@(string.IsNullOrEmpty(currentCategory) ? "Все" : categories.FirstOrDefault(c => c.NormalizedName == currentCategory)?.Name ?? "Все")</a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" 
+                       asp-controller="product"
+                       asp-route-category="@null">Все</a>
+                </li>
+                @foreach (var item in categories)
+                {
+                    <li>
+                        <a class="dropdown-item" 
+                           asp-controller="product"
+                           asp-route-category="@item.NormalizedName">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<!-- Список блюд -->
+<div class="row">
+    @if (Model != null && Model.Items.Any())
+    {
+        @foreach (var dish in Model.Items)
         {
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(dish.Image))
+                    {
+                        <img src="~/@dish.Image" class="card-img-top" alt="@dish.Name" />
+                    }
+                    else
+                    {
+                        <img src="~/images/avatar.png" class="card-img-top" alt="@dish.Name" />
+                    }
                     <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description</p>
+                        <h5 class="card-title">@dish.Name</h5>
+                        <p class="card-text">@dish.Description</p>
                         <p class="card-text">
-                            <strong>Цена: </strong>@product.Price.ToString("C")
+                            <small class="text-muted">Калории: @dish.Calories</small>
                         </p>
                         <p class="card-text">
-                            <small class="text-muted">@product.Category</small>
+                            <small class="text-muted">Категория: @dish.Category?.Name</small>
                         </p>
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-primary">
-                                Подробнее
-                            </a>
-                            <button class="btn btn-sm btn-success" onclick="addToCart(@product.Id)">
-                                <i class="fas fa-cart-plus"></i> В корзину
-                            </button>
-                        </div>
+                        <a asp-action="Details" asp-route-id="@dish.Id" class="btn btn-primary">Подробнее</a>
                     </div>
                 </div>
             </div>
         }
-    </div>
+    }
+    else
+    {
+        <div class="col-12">
+            <p>Блюда не найдены.</p>
+        </div>
+    }
 </div>
 
-@section Scripts {
-    <script>
-        function addToCart(productId) {
-            alert('Товар ' + productId + ' добавлен в корзину!');
-            // Здесь можно добавить AJAX запрос для добавления в корзину
-        }
-    </script>
+<!-- Пагинация -->
+@if (Model != null && Model.TotalPages > 1)
+{
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" 
+                       asp-action="Index" 
+                       asp-route-category="@currentCategory"
+                       asp-route-pageNo="@i">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
 }
-

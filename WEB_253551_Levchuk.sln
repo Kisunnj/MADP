@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_253551_Levchuk", "WEB_253551_Levchuk\WEB_253551_Levchuk.csproj", "{7B53C4AD-73AC-4528-BE07-F509A33CECAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_253551_Levchuk.API", "WEB_253551_Levchuk.API\WEB_253551_Levchuk.API.csproj", "{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7B53C4AD-73AC-4528-BE07-F509A33CECAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B53C4AD-73AC-4528-BE07-F509A33CECAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B53C4AD-73AC-4528-BE07-F509A33CECAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

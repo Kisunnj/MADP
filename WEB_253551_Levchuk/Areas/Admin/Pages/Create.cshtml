@@ -1,0 +1,54 @@
+@page
+@model WEB_253551_Levchuk.Areas.Admin.Pages.CreateModel
+@{
+    ViewData["Title"] = "Создать блюдо";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label asp-for="Dish.Name" class="form-label"></label>
+                <input asp-for="Dish.Name" class="form-control" />
+                <span asp-validation-for="Dish.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Dish.Description" class="form-label"></label>
+                <textarea asp-for="Dish.Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Dish.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Dish.Calories" class="form-label"></label>
+                <input asp-for="Dish.Calories" class="form-control" type="number" />
+                <span asp-validation-for="Dish.Calories" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Dish.CategoryId" class="form-label">Категория</label>
+                <select asp-for="Dish.CategoryId" class="form-select" asp-items="Model.CategoryList">
+                    <option value="">-- Выберите категорию --</option>
+                </select>
+                <span asp-validation-for="Dish.CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Изображение</label>
+                <input class="form-control" type="file" id="formFile" name="formFile" accept="image/*">
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Создать</button>
+                <a asp-page="Dishes" class="btn btn-secondary">Отмена</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

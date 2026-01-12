@@ -1,40 +1,49 @@
 using Microsoft.AspNetCore.Mvc;
+using WEB_253551_Levchuk.Services;
 using WEB_253551_Levchuk.Models;
 
 namespace WEB_253551_Levchuk.Controllers
 {
     public class ProductController : Controller
     {
-        // Временные данные для демонстрации
-        private static List<Product> _products = new List<Product>
-        {
-            new Product { Id = 1, Name = "Товар 1", Description = "Описание товара 1", Price = 100.00M, Category = "Категория А" },
-            new Product { Id = 2, Name = "Товар 2", Description = "Описание товара 2", Price = 200.00M, Category = "Категория А" },
-            new Product { Id = 3, Name = "Товар 3", Description = "Описание товара 3", Price = 150.00M, Category = "Категория Б" },
-            new Product { Id = 4, Name = "Товар 4", Description = "Описание товара 4", Price = 300.00M, Category = "Категория Б" },
-            new Product { Id = 5, Name = "Товар 5", Description = "Описание товара 5", Price = 250.00M, Category = "Категория В" }
-        };
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public IActionResult Index()
+        public ProductController(IProductService productService, ICategoryService categoryService)
         {
-            return View(_products);
+            _productService = productService;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Index(string? category, int pageNo = 1)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
-            if (product == null)
+            var productResponse = await _productService.GetProductListAsync(category, pageNo);
+            
+            if (!productResponse.SuccessFull)
             {
-                return NotFound();
+                return NotFound(productResponse.ErrorMessage);
             }
-            return View(product);
+
+            // Получаем список категорий для фильтра
+            var categoriesResponse = await _categoryService.GetCategoryListAsync();
+            
+            ViewData["categories"] = categoriesResponse.Data ?? new List<Category>();
+            ViewData["currentCategory"] = category;
+
+            return View(productResponse.Data);
         }
 
-        public IActionResult UserProducts()
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
         {
-            // Здесь можно фильтровать продукты по пользователю
-            return View(_products);
+            var productResponse = await _productService.GetProductByIdAsync(id);
+            
+            if (!productResponse.SuccessFull || productResponse.Data == null)
+            {
+                return NotFound(productResponse.ErrorMessage);
+            }
+
+            return View(productResponse.Data);
         }
     }
 }
-
