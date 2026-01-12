@@ -1,0 +1,32 @@
+@using WEB_253551_Levchuk.BlazorUI.Models
+
+<div class="mb-3">
+    <label class="form-label">Категория:</label>
+    <select class="form-select" @bind="SelectedDish" @bind:after="OnCategoryChanged">
+        <option value="">Все категории</option>
+        @if (Categories != null)
+        {
+            @foreach (var category in Categories)
+            {
+                <option value="@category.NormalizedName">@category.Name</option>
+            }
+        }
+    </select>
+</div>
+
+@code {
+    [Parameter]
+    public List<Category>? Categories { get; set; }
+
+    [Parameter]
+    public string? SelectedDish { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> SelectedDishChanged { get; set; }
+
+    private async Task OnCategoryChanged()
+    {
+        await SelectedDishChanged.InvokeAsync(SelectedDish);
+    }
+}
+

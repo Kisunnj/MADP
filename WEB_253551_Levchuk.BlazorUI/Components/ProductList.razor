@@ -1,0 +1,42 @@
+@using WEB_253551_Levchuk.BlazorUI.Models
+
+<div class="row">
+    @if (Dishes != null && Dishes.Any())
+    {
+        @foreach (var dish in Dishes)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(dish.Image))
+                    {
+                        <img src="@dish.Image" class="card-img-top" alt="@dish.Name" style="height: 200px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-white">Нет изображения</span>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@dish.Name</h5>
+                        <p class="card-text">@dish.Description</p>
+                        <p class="text-muted">Калории: @dish.Calories</p>
+                        <a href="@($"/dish/{dish.Id}")" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <p class="text-center">Блюда не найдены</p>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public List<Dish>? Dishes { get; set; }
+}
+

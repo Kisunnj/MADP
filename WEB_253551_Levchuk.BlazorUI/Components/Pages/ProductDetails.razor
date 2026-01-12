@@ -1,0 +1,83 @@
+@page "/dish/{id:int}"
+@using WEB_253551_Levchuk.BlazorUI.Models
+@using WEB_253551_Levchuk.BlazorUI.Services
+@inject IDataService DataService
+@inject NavigationManager NavigationManager
+
+<h3>Детали блюда</h3>
+
+@if (isLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
+}
+else if (errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+else if (dish != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+            @if (!string.IsNullOrEmpty(dish.Image))
+            {
+                <img src="@dish.Image" class="img-fluid" alt="@dish.Name">
+            }
+            else
+            {
+                <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <span class="text-white">Нет изображения</span>
+                </div>
+            }
+        </div>
+        <div class="col-md-6">
+            <h2>@dish.Name</h2>
+            <p class="lead">@dish.Description</p>
+            <p><strong>Калорийность:</strong> @dish.Calories ккал</p>
+            @if (dish.Category != null)
+            {
+                <p><strong>Категория:</strong> @dish.Category.Name</p>
+            }
+            <button class="btn btn-secondary" @onclick="GoBack">Назад к каталогу</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Dish? dish;
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        var response = await DataService.GetProductByIdAsync(Id);
+        
+        if (response.SuccessFull && response.Data != null)
+        {
+            dish = response.Data;
+        }
+        else
+        {
+            errorMessage = response.ErrorMessage ?? "Не удалось загрузить блюдо";
+        }
+
+        isLoading = false;
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/catalog");
+    }
+}
+

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_253551_Levchuk", "WEB_2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_253551_Levchuk.API", "WEB_253551_Levchuk.API\WEB_253551_Levchuk.API.csproj", "{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB_253551_Levchuk.BlazorUI", "WEB_253551_Levchuk.BlazorUI\WEB_253551_Levchuk.BlazorUI.csproj", "{7ABC7714-78DD-4249-9FCF-89875BF5B6BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE485941-8AA7-4690-8ABA-2CD05D5F84D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ABC7714-78DD-4249-9FCF-89875BF5B6BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ABC7714-78DD-4249-9FCF-89875BF5B6BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ABC7714-78DD-4249-9FCF-89875BF5B6BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ABC7714-78DD-4249-9FCF-89875BF5B6BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
